@@ -1,0 +1,21 @@
+name: test
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  examples:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Lua 5.4
+        run: sudo apt-get update && sudo apt-get install -y lua5.4
+      - name: Run every example and solution
+        run: |
+          set -e
+          for f in examples/*.lua exercises/solutions/*.lua; do
+            echo "::group::$f"
+            lua5.4 "$f"
+            echo "::endgroup::"
+          done
